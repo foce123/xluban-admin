@@ -115,7 +115,7 @@ npm run dev 或 yarn dev
 
 ##### 后端
 
-建议使用aconda管理环境， python版本推荐3.11
+建议使用anaconda管理环境， python版本推荐3.11
 
 ```bash
 # 进入后端目录
@@ -125,7 +125,7 @@ pip3 install -r requirements.txt
 
 # 配置环境
 在.env.dev（开发环境）文件中配置开发环境的数据库和redis，
-.env.prod未正式环境使用， 复制.env.prod-templates文件即可
+.env.prod在正式环境使用， 复制.env.prod-templates文件即可
 
 # 运行sql文件
 1.新建数据库flux-data(默认，可修改)
