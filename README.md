@@ -115,12 +115,12 @@ npm run dev 或 yarn dev
 
 ##### 后端
 
-建议使用miniforge管理环境， python版本推荐3.11
+建议使用miniforge3管理环境， python版本推荐3.11
 
 ```bash
 # 进入后端目录
 cd flux-backend
-# 安装依赖环境, 建议使用aconda， python版本推荐3.11
+# 安装依赖环境, 建议使用miniforge3， python版本推荐3.11
 pip3 install -r requirements.txt
 
 # 配置环境
