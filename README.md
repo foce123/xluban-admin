@@ -115,7 +115,7 @@ npm run dev 或 yarn dev
 
 ##### 后端
 
-建议使用anaconda管理环境， python版本推荐3.11
+建议使用miniforge管理环境， python版本推荐3.11
 
 ```bash
 # 进入后端目录
@@ -144,7 +144,7 @@ python3 app.py --env=dev
 密码：admin123
 
 # 浏览器访问
-地址：http://localhost:80
+地址：http://localhost:8080
 ```
 
 #### 发布
