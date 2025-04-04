@@ -22,6 +22,7 @@ from module_admin.controller.sys_form_controller import sysFormController
 from module_admin.controller.sys_form_data_controller import sysFormDataController
 from module_admin.controller.sys_table_controller import sysTableController
 from module_admin.controller.user_controller import userController
+from module_admin.controller.app_env_controller import appEnvController
 from module_app.controller.app_login_controller import appLoginController
 from module_gen.controller.gen_controller import gen1Controller
 from module_website.controller.home_controller import homeRouter
@@ -47,12 +48,11 @@ admin_controllers = [
     {'router': gen1Controller, 'tags': ['系统工具-代码生成']},
     {'router': sysFormController, 'tags': ['系统工具-表单构建']},
     {'router': sysFormDataController, 'tags': ['系统工具-表单构建']},
+    {'router': appEnvController, 'tags': ['发布管理-应用环境']},
     {'router': homeRouter, 'tags': ['产品官网']},
     {'router': carDriverController, 'tags': ['测试业务']},
     {'router': studentInfoController, 'tags': ['测试业务']},
     {'router': importController, 'tags': ['导入数据']}
-
-
 
 ]
 
