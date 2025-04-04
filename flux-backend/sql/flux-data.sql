@@ -1479,4 +1479,31 @@ BEGIN;
 INSERT INTO `user_wechat` (`user_id`, `city`, `country`, `head_img_url`, `nickname`, `openid`, `union_id`, `user_phone`, `province`, `sex`, `id`, `create_time`, `update_time`, `del_flag`) VALUES (117, NULL, NULL, NULL, NULL, 'oxMx-6-s6NINAgtFYTg9B_x_99co', 'ol0Yu65bafiDx5ltVOkE8HKwU0yg', '18010476403', NULL, NULL, 14, '2024-11-16 10:23:09', '2024-11-16 10:23:09', '0');
 COMMIT;
 
+-- ----------------------------
+-- Table structure for app_env
+-- ----------------------------
+DROP TABLE IF EXISTS `app_env`;
+CREATE TABLE `app_env` (
+  `env_id` bigint NOT NULL AUTO_INCREMENT COMMENT '环境ID',
+  `env_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '环境编码',
+  `env_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '环境名称',
+  `env_sort` int NOT NULL COMMENT '显示顺序',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '状态（0正常 1停用）',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '创建者',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '更新者',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`env_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='环境信息表';
+
+-- ----------------------------
+-- Records of app_env
+-- ----------------------------
+BEGIN;
+INSERT INTO `app_env` (`env_id`, `env_code`, `env_name`, `env_sort`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (1, 'dev1', '开发环境1', 1, '0', 'admin', '2025-04-04 14:12:02', '', NULL, '');
+INSERT INTO `app_env` (`env_id`, `env_code`, `env_name`, `env_sort`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (2, 'dev2', '开发环境2', 2, '0', 'admin', '2025-04-04 14:12:02', '', NULL, '');
+INSERT INTO `app_env` (`env_id`, `env_code`, `env_name`, `env_sort`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES (3, 'dev3', '开发环境3', 3, '0', 'admin', '2025-04-04 14:12:02', '', NULL, '');
+COMMIT;
+
 SET FOREIGN_KEY_CHECKS = 1;
