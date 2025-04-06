@@ -40,7 +40,7 @@ class EnvService:
         """
         env_id = -1 if page_object.env_id is None else page_object.env_id
         env = await EnvDao.get_env_detail_by_info(query_db, EnvModel(envName=page_object.env_name))
-        if env and env.post_id != env_id:
+        if env and env.env_id != env_id:
             return CommonConstant.NOT_UNIQUE
         return CommonConstant.UNIQUE
 
@@ -55,7 +55,7 @@ class EnvService:
         """
         env_id = -1 if page_object.env_id is None else page_object.env_id
         env = await EnvDao.get_env_detail_by_info(query_db, EnvModel(envCode=page_object.env_code))
-        if env and env.post_id != env_id:
+        if env and env.env_id != env_id:
             return CommonConstant.NOT_UNIQUE
         return CommonConstant.UNIQUE
 
@@ -92,7 +92,7 @@ class EnvService:
         """
         edit_env = page_object.model_dump(exclude_unset=True)
         env_info = await cls.env_detail_services(query_db, page_object.env_id)
-        if env_info.post_id:
+        if env_info.env_id:
             if not await cls.check_env_name_unique_services(query_db, page_object):
                 raise ServiceException(message=f'修改环境{page_object.env_name}失败，环境名称已存在')
             elif not await cls.check_env_code_unique_services(query_db, page_object):
@@ -117,7 +117,7 @@ class EnvService:
         :param page_object: 删除环境对象
         :return: 删除环境校验结果
         """
-        if page_object.post_ids:
+        if page_object.env_ids:
             env_id_list = page_object.env_ids.split(',')
             try:
                 for env_id in env_id_list:

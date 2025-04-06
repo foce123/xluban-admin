@@ -6,18 +6,18 @@
             :inline="true"
             v-show="showSearch"
         >
-            <el-form-item label="环境编码" prop="postCode">
+            <el-form-item label="环境编码" prop="envCode">
                 <el-input
-                    v-model="queryParams.postCode"
+                    v-model="queryParams.envCode"
                     placeholder="请输入环境编码"
                     clearable
                     style="width: 200px"
                     @keyup.enter="handleQuery"
                 />
             </el-form-item>
-            <el-form-item label="环境名称" prop="postName">
+            <el-form-item label="环境名称" prop="envName">
                 <el-input
-                    v-model="queryParams.postName"
+                    v-model="queryParams.envName"
                     placeholder="请输入环境名称"
                     clearable
                     style="width: 200px"
@@ -27,7 +27,7 @@
             <el-form-item label="状态" prop="status">
                 <el-select
                     v-model="queryParams.status"
-                    placeholder="岗位状态"
+                    placeholder="环境状态"
                     clearable
                     style="width: 200px"
                 >
@@ -54,7 +54,7 @@
                     plain
                     icon="Plus"
                     @click="handleAdd"
-                    v-hasPermi="['system:post:add']"
+                    v-hasPermi="['deployment:environment:add']"
                     >新增</el-button
                 >
             </el-col>
@@ -65,7 +65,7 @@
                     icon="Edit"
                     :disabled="single"
                     @click="handleUpdate"
-                    v-hasPermi="['system:post:edit']"
+                    v-hasPermi="['deployment:environment:edit']"
                     >修改</el-button
                 >
             </el-col>
@@ -76,7 +76,7 @@
                     icon="Delete"
                     :disabled="multiple"
                     @click="handleDelete"
-                    v-hasPermi="['system:post:remove']"
+                    v-hasPermi="['deployment:environment:remove']"
                     >删除</el-button
                 >
             </el-col>
@@ -86,7 +86,7 @@
                     plain
                     icon="Download"
                     @click="handleExport"
-                    v-hasPermi="['system:post:export']"
+                    v-hasPermi="['deployment:environment:export']"
                     >导出</el-button
                 >
             </el-col>
@@ -98,14 +98,14 @@
 
         <el-table
             v-loading="loading"
-            :data="postList"
+            :data="envList"
             @selection-change="handleSelectionChange"
         >
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="环境编号" align="center" prop="postId" />
-            <el-table-column label="环境编码" align="center" prop="postCode" />
-            <el-table-column label="环境名称" align="center" prop="postName" />
-            <el-table-column label="环境排序" align="center" prop="postSort" />
+            <el-table-column label="环境编号" align="center" prop="envId" />
+            <el-table-column label="环境编码" align="center" prop="envCode" />
+            <el-table-column label="环境名称" align="center" prop="envName" />
+            <el-table-column label="环境排序" align="center" prop="envSort" />
             <el-table-column label="状态" align="center" prop="status">
                 <template #default="scope">
                     <dict-tag
@@ -136,7 +136,7 @@
                         type="primary"
                         icon="Edit"
                         @click="handleUpdate(scope.row)"
-                        v-hasPermi="['system:post:edit']"
+                        v-hasPermi="['deployment:environment:edit']"
                         >修改</el-button
                     >
                     <el-button
@@ -144,7 +144,7 @@
                         type="primary"
                         icon="Delete"
                         @click="handleDelete(scope.row)"
-                        v-hasPermi="['system:post:remove']"
+                        v-hasPermi="['deployment:environment:remove']"
                         >删除</el-button
                     >
                 </template>
@@ -162,26 +162,26 @@
         <!-- 添加或修改环境对话框 -->
         <el-dialog :title="title" v-model="open" width="500px" append-to-body>
             <el-form
-                ref="postRef"
+                ref="envRef"
                 :model="form"
                 :rules="rules"
                 label-width="80px"
             >
-                <el-form-item label="环境名称" prop="postName">
+                <el-form-item label="环境名称" prop="envName">
                     <el-input
-                        v-model="form.postName"
+                        v-model="form.envName"
                         placeholder="请输入环境名称"
                     />
                 </el-form-item>
-                <el-form-item label="环境编码" prop="postCode">
+                <el-form-item label="环境编码" prop="envCode">
                     <el-input
-                        v-model="form.postCode"
+                        v-model="form.envCode"
                         placeholder="请输入编码名称"
                     />
                 </el-form-item>
-                <el-form-item label="环境顺序" prop="postSort">
+                <el-form-item label="环境顺序" prop="envSort">
                     <el-input-number
-                        v-model="form.postSort"
+                        v-model="form.envSort"
                         controls-position="right"
                         :min="0"
                     />
@@ -216,19 +216,18 @@
     </div>
 </template>
 
-<script setup name="Post">
+<script setup name="Env">
 import {
-    listPost,
-    addPost,
-    delPost,
-    getPost,
-    updatePost
-} from '@/api/system/post'
-
+    listEnv,
+    addEnv,
+    delEnv,
+    getEnv,
+    updateEnv
+} from '@/api/deployment/environment'
 const { proxy } = getCurrentInstance()
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
 
-const postList = ref([])
+const envList = ref([])
 const open = ref(false)
 const loading = ref(true)
 const showSearch = ref(true)
@@ -243,18 +242,18 @@ const data = reactive({
     queryParams: {
         pageNum: 1,
         pageSize: 10,
-        postCode: undefined,
-        postName: undefined,
+        envCode: undefined,
+        envName: undefined,
         status: undefined
     },
     rules: {
-        postName: [
+        envName: [
             { required: true, message: '环境名称不能为空', trigger: 'blur' }
         ],
-        postCode: [
+        envCode: [
             { required: true, message: '环境编码不能为空', trigger: 'blur' }
         ],
-        postSort: [
+        envSort: [
             { required: true, message: '环境顺序不能为空', trigger: 'blur' }
         ]
     }
@@ -265,8 +264,8 @@ const { queryParams, form, rules } = toRefs(data)
 /** 查询环境列表 */
 function getList() {
     loading.value = true
-    listPost(queryParams.value).then((response) => {
-        postList.value = response.rows
+    listEnv(queryParams.value).then((response) => {
+        envList.value = response.rows
         total.value = response.total
         loading.value = false
     })
@@ -279,14 +278,14 @@ function cancel() {
 /** 表单重置 */
 function reset() {
     form.value = {
-        postId: undefined,
-        postCode: undefined,
-        postName: undefined,
-        postSort: 0,
+        envId: undefined,
+        envCode: undefined,
+        envName: undefined,
+        envSort: 0,
         status: '0',
         remark: undefined
     }
-    proxy.resetForm('postRef')
+    proxy.resetForm('envRef')
 }
 /** 搜索按钮操作 */
 function handleQuery() {
@@ -300,7 +299,7 @@ function resetQuery() {
 }
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
-    ids.value = selection.map((item) => item.postId)
+    ids.value = selection.map((item) => item.envId)
     single.value = selection.length != 1
     multiple.value = !selection.length
 }
@@ -313,8 +312,8 @@ function handleAdd() {
 /** 修改按钮操作 */
 function handleUpdate(row) {
     reset()
-    const postId = row.postId || ids.value
-    getPost(postId).then((response) => {
+    const envId = row.envId || ids.value
+    getEnv(envId).then((response) => {
         form.value = response.data
         open.value = true
         title.value = '修改环境'
@@ -322,16 +321,16 @@ function handleUpdate(row) {
 }
 /** 提交按钮 */
 function submitForm() {
-    proxy.$refs['postRef'].validate((valid) => {
+    proxy.$refs['envRef'].validate((valid) => {
         if (valid) {
-            if (form.value.postId != undefined) {
-                updatePost(form.value).then((response) => {
+            if (form.value.envId != undefined) {
+                updateEnv(form.value).then((response) => {
                     proxy.$modal.msgSuccess('修改成功')
                     open.value = false
                     getList()
                 })
             } else {
-                addPost(form.value).then((response) => {
+                addEnv(form.value).then((response) => {
                     proxy.$modal.msgSuccess('新增成功')
                     open.value = false
                     getList()
@@ -342,11 +341,11 @@ function submitForm() {
 }
 /** 删除按钮操作 */
 function handleDelete(row) {
-    const postIds = row.postId || ids.value
+    const envIds = row.envId || ids.value
     proxy.$modal
-        .confirm('是否确认删除环境编号为"' + postIds + '"的数据项？')
+        .confirm('是否确认删除环境编号为"' + envIds + '"的数据项？')
         .then(function () {
-            return delPost(postIds)
+            return delEnv(envIds)
         })
         .then(() => {
             getList()
@@ -357,11 +356,11 @@ function handleDelete(row) {
 /** 导出按钮操作 */
 function handleExport() {
     proxy.download(
-        'system/post/export',
+        'deployment/environment/export',
         {
             ...queryParams.value
         },
-        `post_${new Date().getTime()}.xlsx`
+        `env_${new Date().getTime()}.xlsx`
     )
 }
 
